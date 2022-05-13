@@ -1,0 +1,11 @@
+../../Scripts/pylottie.exe,sha256=T5lzMrtICYt5eSPjxgji9wn2OU7MNwltMl65S8l3dTI,106342
+pylottie-2021.2.1.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+pylottie-2021.2.1.dist-info/LICENSE.md,sha256=tKsIYc9lNCZhGBl7yGlFAbJJv_6YK2P6VmmZyoACjxk,1088
+pylottie-2021.2.1.dist-info/METADATA,sha256=oTjc1deJTH01OrkplNFtM9YuNkhR3xRkKA6d8KmX-Sk,6024
+pylottie-2021.2.1.dist-info/RECORD,,
+pylottie-2021.2.1.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+pylottie-2021.2.1.dist-info/WHEEL,sha256=SrtnPGVTMeYWttls9xnWA01eUhCZ3ufFdJUYb1J3r-U,83
+pylottie-2021.2.1.dist-info/entry_points.txt,sha256=OZNMDvCKvDbdF69HMNH4ZcuRjjCdkUXHFh7pB6Qfrhc,41
+pylottie/__init__.py,sha256=H8WEbBd0u0suh74wp_WqwIDLf7vsff2lIw1fR1mKcZs,6973
+pylottie/__pycache__/__init__.cpython-39.pyc,,
+pylottie/lottie.html,sha256=AzFWXqIcQkKFPOGcf_QEfqIUwAwExo-JtuuhHLrGH_0,263313
