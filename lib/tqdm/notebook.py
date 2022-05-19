@@ -14,6 +14,7 @@ from __future__ import absolute_import, division
 # import compatibility functions and utilities
 import re
 import sys
+from weakref import proxy
 
 # to inherit from the tqdm class
 from .std import tqdm as std_tqdm
@@ -70,22 +71,27 @@ if True:  # pragma: no cover
 
 __author__ = {"github.com/": ["lrq3000", "casperdcl", "alexanderkuk"]}
 __all__ = ['tqdm_notebook', 'tnrange', 'tqdm', 'trange']
+WARN_NOIPYW = ("IProgress not found. Please update jupyter and ipywidgets."
+               " See https://ipywidgets.readthedocs.io/en/stable"
+               "/user_install.html")
 
 
 class TqdmHBox(HBox):
     """`ipywidgets.HBox` with a pretty representation"""
     def _repr_json_(self, pretty=None):
-        if not hasattr(self, "pbar"):
+        pbar = getattr(self, 'pbar', None)
+        if pbar is None:
             return {}
-        d = self.pbar.format_dict
+        d = pbar.format_dict
         if pretty is not None:
             d["ascii"] = not pretty
         return d
 
     def __repr__(self, pretty=False):
-        if not hasattr(self, "pbar"):
+        pbar = getattr(self, 'pbar', None)
+        if pbar is None:
             return super(TqdmHBox, self).__repr__()
-        return self.pbar.format_meter(**self._repr_json_(pretty))
+        return pbar.format_meter(**self._repr_json_(pretty))
 
     def _repr_pretty_(self, pp, *_, **__):
         pp.text(self.__repr__(True))
@@ -109,10 +115,7 @@ class tqdm_notebook(std_tqdm):
 
         # Prepare IPython progress bar
         if IProgress is None:  # #187 #451 #558 #872
-            raise ImportError(
-                "IProgress not found. Please update jupyter and ipywidgets."
-                " See https://ipywidgets.readthedocs.io/en/stable"
-                "/user_install.html")
+            raise ImportError(WARN_NOIPYW)
         if total:
             pbar = IProgress(min=0, max=total)
         else:  # No total? Show info style bar with no progress tqdm status
@@ -237,7 +240,7 @@ class tqdm_notebook(std_tqdm):
         unit_scale = 1 if self.unit_scale is True else self.unit_scale or 1
         total = self.total * unit_scale if self.total else self.total
         self.container = self.status_printer(self.fp, total, self.desc, self.ncols)
-        self.container.pbar = self
+        self.container.pbar = proxy(self)
         self.displayed = False
         if display_here and self.delay <= 0:
             display(self.container)
@@ -251,7 +254,8 @@ class tqdm_notebook(std_tqdm):
 
     def __iter__(self):
         try:
-            for obj in super(tqdm_notebook, self).__iter__():
+            it = super(tqdm_notebook, self).__iter__()
+            for obj in it:
                 # return super(tqdm...) will not catch exception
                 yield obj
         # NB: except ... [ as ...] breaks IPython async KeyboardInterrupt

@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 import itertools
 
-from tqdm.auto import tqdm as tqdm_auto
+from ..auto import tqdm as tqdm_auto
 
 __author__ = {"github.com/": ["casperdcl"]}
 __all__ = ['product']
@@ -31,6 +31,7 @@ def product(*iterables, **tqdm_kwargs):
             total *= i
         kwargs.setdefault("total", total)
     with tqdm_class(**kwargs) as t:
-        for i in itertools.product(*iterables):
+        it = itertools.product(*iterables)
+        for i in it:
             yield i
             t.update()
